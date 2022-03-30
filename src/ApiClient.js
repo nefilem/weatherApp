@@ -19,10 +19,11 @@ export class ApiClient {
   // lang	optional	You can use the lang parameter to get the output in your language. Learn more
   //
 
-    apikey = "";
+    //apikey = "d646f0637546233656e7899d2cd2cfc8";
+    apikey = "7b8c2fb2c25fc9629ddf57bbee96011f";
     lat = "53.3811";
     lon = "1.4701";
-    part = "hourly,minutely";
+    part = "";
 
     responseStatusCheck(responseObject) {
         if(responseObject.status >= 200 && responseObject.status < 300){

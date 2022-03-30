@@ -1,12 +1,16 @@
-
 import './App.css';
 import { ApiClient } from './ApiClient';
 import { useState,useEffect} from 'react';
 import WeatherCard from './WeatherCard';
+import CurrentWeatherTimeline from './CurrentWeatherTimeline';
+import {Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Sidebar from "./navsidebar";
 
 function App() {
 
   const [weather, changeWeather] = useState(undefined);
+  const [detailWeather, changeDetailWeather] = useState(undefined);
   const api = new ApiClient();
 
   useEffect(() => {
@@ -19,21 +23,38 @@ function App() {
 }, []);
 
   useEffect(() => {
-      if (weather === undefined) {
+      if (detailWeather === undefined) {
         console.log("Weather data not received yet.");        
       } else
       {
-        displayWeather();
+        //displayDetailedWeather();
+        console.log("detailWeather Changed")
       }
-  }, [weather])
+  }, [detailWeather])
 
-  const displayWeather = (weather) => {
-
+  const displayDetailedWeather = (index) => {    
+    changeDetailWeather(weather.daily[index]);
   }
 
-  return (
-    <div className="App">
-      <WeatherCard weather={weather}/>
+  return (  
+    <div className="App">      
+      <Container>
+        <Row xs={12} md={12} lg={12}> <p className="navDateDisplay">Next 12 Hours</p></Row>        
+        <Row xs={12} md={12} lg={12}>
+          <CurrentWeatherTimeline weather={weather}/>
+        </Row><br/>
+        <Row xs={12} md={12} lg={12}><p className="navDateDisplay">8 Day Forecast</p></Row>
+        <Row xs={12} md={12} lg={12}>
+          <Col xs={4} md={4} lg={4}>
+            <Container>
+              <Sidebar weather={weather} dispDetailedWeather={(index) => displayDetailedWeather(index)}/>
+            </Container>
+          </Col>        
+          <Col xs={8} md={8} lg={8}>
+            <WeatherCard weather={detailWeather}/>            
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
