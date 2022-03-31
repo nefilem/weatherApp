@@ -21,7 +21,7 @@ export class ApiClient {
   //
 
     //apikey = ""; 
-    apikey = "d646f0637546233656e7899d2cd2cfc8";
+    apikey = "";
     lat = "53.3811";
     lon = "1.4701";
     part = "";
