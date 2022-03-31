@@ -12,23 +12,33 @@ function App() {
   const [weather, changeWeather] = useState(undefined);
   const [detailWeather, changeDetailWeather] = useState(undefined);
   const [weatherLocation, setLocation] = useState("Sheffield");
+  const [latLonLocation, setLatLon] = useState(undefined);
 
   const api = new ApiClient();  
 
-  useEffect(() => {
-   api.getWeatherByLocation(weatherLocation)
-   .then((response) => {
-     changeWeather(response.data);
-     console.log(response.data);
-   });
-}, []);
-
 useEffect(() => {
-  api.getWeatherByLocation(weatherLocation)
-  .then((response) => {
-    changeWeather(response.data);
-    console.log(response.data);
-  });
+  //console.log("weatherLocation " + weatherLocation);
+  if (weatherLocation === "Current Location") {
+    //console.log("getcurrentlocation");
+    api.getWeatherByCurrentLocation()
+     .then((response) => {
+      //console.log("Response:",response);
+       //changeWeather(response.data);  
+      // console.log("setlatlon");     
+       setLatLon([response.coords.latitude, response.coords.longitude]);
+     })
+     .catch( (err) => {
+       console.log(err);
+     })
+  } else {
+    //console.log("location",weatherLocation);
+    api.getWeatherByLocation(weatherLocation)
+    .then((response) => {
+      changeWeather(response.data);
+      //console.log(response.data);
+    });
+  }
+  console.log("useEffect: weatherLocation");
 }, [weatherLocation]);
   
   useEffect(() => {
@@ -39,21 +49,37 @@ useEffect(() => {
         //displayDetailedWeather();
         console.log("detailWeather Changed")
       }
+      console.log("useEffect: detailWeather");
   }, [detailWeather])
+
+  useEffect(() => {
+    //console.log("Lat Lon Location", latLonLocation);
+    // console.log("location",weatherLocation);
+    // api.getWeatherByLocation(weatherLocation)
+    // .then((response) => {
+    //   changeWeather(response.data);
+    //   console.log(response.data);
+    // });
+    api.getWeather(latLonLocation[0], latLonLocation[1])
+    .then((response) => {
+      changeWeather(response.data);      
+    });
+    console.log("useEffect: latLonLocation");
+  }, [latLonLocation]);
 
   const displayDetailedWeather = (index) => {    
     changeDetailWeather(weather.daily[index]);
   }
 
-  const handleLocationChange = (event) => {
-    //alert(event.key);
-    //event.preventDefault();
-    console.log("");
+  const handleLocationChange = (event) => {    
     if(event.keyCode == 13) {
       setLocation(event.target.value);
-     // alert(event.target.value)
     }
     return;
+  }
+
+  const handleCurrentLocationClick = () => {
+    setLocation("Current Location");
   }
 
   return (  
@@ -63,9 +89,10 @@ useEffect(() => {
         <FormControl
             type="text"
            defaultvalue="Sheffield"
-            onKeyUp={handleLocationChange}
+            onKeyUp={(event) => handleLocationChange(event)}
           />
-        </row>
+          <button onClick={() => handleCurrentLocationClick()}>Get current location</button>
+        </row>        
         <Row xs={12} md={12} lg={12}> <p className="navDateDisplay">Next 12 Hours</p></Row>        
         <Row xs={12} md={12} lg={12}>
           <CurrentWeatherTimeline weather={weather}/>

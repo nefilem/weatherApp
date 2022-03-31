@@ -1,5 +1,5 @@
 import axios from "axios";
-import react, {useState} from "react";
+//import react, {useState} from "react";
 
 export class ApiClient {
   
@@ -20,7 +20,7 @@ export class ApiClient {
   // lang	optional	You can use the lang parameter to get the output in your language. Learn more
   //
 
-    //apikey = "";
+    //apikey = ""; 
     apikey = "d646f0637546233656e7899d2cd2cfc8";
     lat = "53.3811";
     lon = "1.4701";
@@ -44,26 +44,40 @@ export class ApiClient {
             console.log(error);
         })        
      }
-     
-    async getWeatherByLocation(locationName){      
+    
+    async getWeatherByCurrentLocation(){      
+      // Accesing Geolocation of User
+      if (navigator.geolocation) {
+        let promise = new Promise(function(resolve, reject) {
+          navigator.geolocation.getCurrentPosition( (position) =>  {
+            //resolve promise
+    //        console.log("in promise");
+            if (position === undefined) {
+              console.log("reject");
+              reject(new Error("Error occured getting current position"));
+            } else {
+              console.log("resolve");              
+              resolve(position);
+            }
+          })                    
+        })        
+  //      console.log("promise", promise);
+        return promise;        
+      } else {
+        return undefined;
+      }
+    }
+    
+    async getWeatherByLocation(locationName){            
       console.log(`https://api.openweathermap.org/data/2.5/weather?q=${locationName}&appid=${this.apikey}`);
       let res = await this.getItems(`https://api.openweathermap.org/data/2.5/weather?q=${locationName}&appid=${this.apikey}`)
-      console.log(res.data);
+      //console.log(res.data);
       return this.getWeather(res.data.coord.lat, res.data.coord.lon);   
-     /* .then((response) => {
-        //console.log("location");
-        //console.log(response);
-        this.locName = locationName;
-                     
-      });*/
     }
      
-    getWeather(lat, lon){
-      // console.log(`https://api.openweathermap.org/data/2.5/onecall?lat=${this.lat}&lon=${this.lon}&exclude=${this.part}&appid=${this.apikey}`);
+    getWeather(lat, lon){      
       console.log(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=${this.part}&appid=${this.apikey}&units=metric`);
         return this.getItems(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=${this.part}&appid=${this.apikey}&units=metric`);
-//console.log(`https://api.openweathermap.org/data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=${this.apikey}`);
-        // return this.getItems("https://api.openweathermap.org/data/2.5/weather?lat=53.3811&lon=1.4701&appid=d646f0637546233656e7899d2cd2cfc8");      
     }
 
 }

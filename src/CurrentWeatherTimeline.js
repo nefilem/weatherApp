@@ -36,12 +36,12 @@ function CurrentWeatherTimeline(props){
         <> 
             <Col>
                 <img height={64} width={64} src={`${getIconURI(current.weather[0].icon)}`}></img>
-                <button className="timelineButton">
+                <div className="timelineDiv"> 
                     {timeDisplay(current.dt)}<br/>
                     {current.temp}&#8451;<br/>
                     {current.weather[0].description}<br/>
                     w/s {current.wind_speed} knots
-                </button>
+                </div>
             </Col>
         </>));
     }
