@@ -34,8 +34,7 @@ const weatherLinks = (props) => {
            
                     <p className="navDateDisplay">{dateDisplay(current.dt)}</p>
                         <img height={64} width={64} src={`${getIconURI(current.weather[0].icon)}`}></img>        
-                        <button onClick={() => props.dispDetailedWeather(index)}>                        
-                            {index}
+                        <button onClick={() => props.dispDetailedWeather(index)}>                                                    
                             Min Temp:{current.temp.min}&#8451;<br />
                             Max Temp:{current.temp.max}&#8451;<br />
                             {current.weather[0].description}<br />

@@ -3,7 +3,7 @@ import { ApiClient } from './ApiClient';
 import { useState,useEffect} from 'react';
 import WeatherCard from './WeatherCard';
 import CurrentWeatherTimeline from './CurrentWeatherTimeline';
-import {Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import {Container, Row, Col, Card, Form, Button, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Sidebar from "./navsidebar";
 
@@ -11,17 +11,26 @@ function App() {
 
   const [weather, changeWeather] = useState(undefined);
   const [detailWeather, changeDetailWeather] = useState(undefined);
-  const api = new ApiClient();
+  const [weatherLocation, setLocation] = useState("Sheffield");
+
+  const api = new ApiClient();  
 
   useEffect(() => {
-   api.getWeather()
+   api.getWeatherByLocation(weatherLocation)
    .then((response) => {
      changeWeather(response.data);
      console.log(response.data);
    });
-
 }, []);
 
+useEffect(() => {
+  api.getWeatherByLocation(weatherLocation)
+  .then((response) => {
+    changeWeather(response.data);
+    console.log(response.data);
+  });
+}, [weatherLocation]);
+  
   useEffect(() => {
       if (detailWeather === undefined) {
         console.log("Weather data not received yet.");        
@@ -36,9 +45,27 @@ function App() {
     changeDetailWeather(weather.daily[index]);
   }
 
+  const handleLocationChange = (event) => {
+    //alert(event.key);
+    //event.preventDefault();
+    console.log("");
+    if(event.keyCode == 13) {
+      setLocation(event.target.value);
+     // alert(event.target.value)
+    }
+    return;
+  }
+
   return (  
     <div className="App">      
       <Container>
+        <row xs={12} md={12} lg={12}>         
+        <FormControl
+            type="text"
+           defaultvalue="Sheffield"
+            onKeyUp={handleLocationChange}
+          />
+        </row>
         <Row xs={12} md={12} lg={12}> <p className="navDateDisplay">Next 12 Hours</p></Row>        
         <Row xs={12} md={12} lg={12}>
           <CurrentWeatherTimeline weather={weather}/>
