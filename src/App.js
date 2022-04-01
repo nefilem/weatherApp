@@ -11,24 +11,35 @@ function App() {
   const [weather, changeWeather] = useState(undefined);
   const [detailWeather, changeDetailWeather] = useState(undefined);
   const [weatherLocation, setLocation] = useState("Sheffield");
+  const [previousWeatherLocation, cPreviousWeatherLocation] = useState(undefined);
   const [latLonLocation, setLatLon] = useState(undefined);
+
 
   const api = new ApiClient();
 
   useEffect(() => {
-    if (weatherLocation === "Current Location") {
-      api
-        .getWeatherByCurrentLocation()
-        .then((response) => {
-          setLatLon([response.coords.latitude, response.coords.longitude]);
+    if (weatherLocation === previousWeatherLocation) {
+      console.log("No need to call api");
+    } else {
+      if (weatherLocation === "Current Location") {
+        api
+          .getWeatherByCurrentLocation()
+          .then((response) => {
+            setLatLon([response.coords.latitude, response.coords.longitude]);
+          })
+          .catch((err) => {
+            console.log(err);
+            setLocation(previousWeatherLocation);
+          });
+      } else {
+        api.getWeatherByLocation(weatherLocation).then((response) => {
+          changeWeather(response.data);
         })
         .catch((err) => {
           console.log(err);
+          setLocation(previousWeatherLocation);
         });
-    } else {
-      api.getWeatherByLocation(weatherLocation).then((response) => {
-        changeWeather(response.data);
-      });
+      }
     }
     console.log("useEffect: weatherLocation");
   }, [weatherLocation]);
@@ -59,13 +70,15 @@ function App() {
 
   const handleLocationChange = (event) => {
     if (event.keyCode == 13) {
+      cPreviousWeatherLocation(weatherLocation);
       setLocation(event.target.value);
     }
     return;
   };
 
   const handleCurrentLocationClick = () => {
-    setLocation("Current Location");
+    cPreviousWeatherLocation(weatherLocation);
+    setLocation("Current Location");    
   };
 
   return (
