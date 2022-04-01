@@ -31,15 +31,14 @@ const weatherLinks = (props) => {
         <>       
         <Row>
             <Col>           
-           
                     <p className="navDateDisplay">{dateDisplay(current.dt)}</p>
-                        <img height={64} width={64} src={`${getIconURI(current.weather[0].icon)}`}></img>        
-                        <button onClick={() => props.dispDetailedWeather(index)}>                                                    
-                            Min Temp:{current.temp.min}&#8451;<br />
-                            Max Temp:{current.temp.max}&#8451;<br />
-                            {current.weather[0].description}<br />
-                            Wind Speed (Knots): {current.wind_speed}<br />
-                        </button>
+                    <img alt="icon for weather" height={64} width={64} src={`${getIconURI(current.weather[0].icon)}`}></img>        
+                    <button onClick={() => props.dispDetailedWeather(index)} className="dailyButton">
+                        Min: {current.temp.min}&#8451;&nbsp;
+                        Max: {current.temp.max}&#8451;<br />
+                        {current.weather[0].description}<br />
+                        Wind Speed (Knots): {current.wind_speed}<br />
+                    </button>
                    
             </Col>
         </Row>

@@ -1,16 +1,8 @@
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './dashboard.css';
 
 const timeDisplay = (dateNumeric) => {
     // date is in unix timestamp/utc?
-    //return Date(dateNumeric);
-    //const dateObj = new Date(dateNumeric * 1000);
-    //utcString = dateObj.toUTCString();
-    //time = utcString.slice(-11, -4);
     const options = {
         hour: "2-digit",
         minute: "2-digit",        
@@ -35,7 +27,7 @@ function CurrentWeatherTimeline(props){
         return timeLineArr.map((current, index) => (
         <> 
             <Col>
-                <img height={64} width={64} src={`${getIconURI(current.weather[0].icon)}`}></img>
+                <img alt="" height={64} width={64} src={`${getIconURI(current.weather[0].icon)}`}></img>
                 <div className="timelineDiv"> 
                     {timeDisplay(current.dt)}<br/>
                     {current.temp}&#8451;<br/>

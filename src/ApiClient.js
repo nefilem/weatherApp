@@ -1,5 +1,4 @@
 import axios from "axios";
-//import react, {useState} from "react";
 
 export class ApiClient {
   
@@ -21,7 +20,7 @@ export class ApiClient {
   //
 
     //apikey = ""; 
-    apikey = "";
+    apikey = "d646f0637546233656e7899d2cd2cfc8";
     lat = "53.3811";
     lon = "1.4701";
     part = "";
@@ -49,9 +48,7 @@ export class ApiClient {
       // Accesing Geolocation of User
       if (navigator.geolocation) {
         let promise = new Promise(function(resolve, reject) {
-          navigator.geolocation.getCurrentPosition( (position) =>  {
-            //resolve promise
-    //        console.log("in promise");
+          navigator.geolocation.getCurrentPosition( (position) =>  {            
             if (position === undefined) {
               console.log("reject");
               reject(new Error("Error occured getting current position"));
@@ -60,8 +57,7 @@ export class ApiClient {
               resolve(position);
             }
           })                    
-        })        
-  //      console.log("promise", promise);
+        })          
         return promise;        
       } else {
         return undefined;
@@ -71,7 +67,6 @@ export class ApiClient {
     async getWeatherByLocation(locationName){            
       console.log(`https://api.openweathermap.org/data/2.5/weather?q=${locationName}&appid=${this.apikey}`);
       let res = await this.getItems(`https://api.openweathermap.org/data/2.5/weather?q=${locationName}&appid=${this.apikey}`)
-      //console.log(res.data);
       return this.getWeather(res.data.coord.lat, res.data.coord.lon);   
     }
      
