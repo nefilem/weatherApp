@@ -17,10 +17,10 @@ export class ApiClient {
   // alerts
   // units	optional	Units of measurement. standard, metric and imperial units are available. If you do not use the units parameter, standard units will be applied by default. Learn more
   // lang	optional	You can use the lang parameter to get the output in your language. Learn more
-  //
+  //d646f0637546233656e7899d2cd2cfc8
 
     //apikey = ""; 
-    apikey = "d646f0637546233656e7899d2cd2cfc8";
+    apikey = "";
     lat = "53.3811";
     lon = "1.4701";
     part = "";
