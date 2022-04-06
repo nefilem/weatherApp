@@ -2,7 +2,11 @@ import { ApiClient } from "./ApiClient";
 import { useState, useEffect } from "react";
 import WeatherCard from "./WeatherCard";
 import CurrentWeatherTimeline from "./CurrentWeatherTimeline";
+import CurrentWeatherTimelineGraph from "./CurrentWeatherTimelineGraph";
 import { Container, Row, Col, FormControl } from "react-bootstrap";
+
+import BJSScene from "./BJSScene";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Sidebar from "./navsidebar";
@@ -80,7 +84,7 @@ function App() {
     cPreviousWeatherLocation(weatherLocation);
     setLocation("Current Location");    
   };
-
+  
   return (
     <div className="App">
       <Container className="mainContainer">
@@ -96,23 +100,30 @@ function App() {
         </Row>
         <Row xs={12} md={12} lg={12}>
           {" "}
-          <p className="navDateDisplay">
+          <p className="locationDisplay">
             Weather Forecast for {weatherLocation}
           </p>
         </Row>
         <Row xs={12} md={12} lg={12}>
           {" "}
-          <p className="navDateDisplay">Next 12 Hours</p>
+          <p className="twelveHourDisplay">Next 12 Hours</p>
         </Row>
         <Row xs={12} md={12} lg={12}>
           <CurrentWeatherTimeline weather={weather} />
         </Row>
+        <Row xs={12} md={12} lg={12} id="graphContainer">
+          <CurrentWeatherTimelineGraph weather={weather} />
+        </Row>
         <br />
         <Row xs={12} md={12} lg={12}>
-          <p className="navDateDisplay">8 Day Forecast</p>
+          <BJSScene weather={weather}/>
+        </Row>
+        <br/>
+        <Row xs={12} md={12} lg={12}>
+          <p className="eightDayDisplay">8 Day Forecast</p>
         </Row>
         <Row xs={12} md={12} lg={12}>
-          <Col xs={4} md={4} lg={4}>
+          <Col xs={4} md={4} lg={4} className="padding-0">
             <Container>
               <Sidebar
                 weather={weather}

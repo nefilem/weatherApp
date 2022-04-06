@@ -1,5 +1,5 @@
 import Col from 'react-bootstrap/Col';
-import './dashboard.css';
+import './App.css';
 
 const timeDisplay = (dateNumeric) => {
     // date is in unix timestamp/utc?
@@ -15,6 +15,15 @@ const getIconURI = (iconId) => {
     return "http://openweathermap.org/img/wn/" + iconId + "@2x.png";
 }
 
+const calculateColourFromTemp = (temp, min, max) => {
+    temp = Math.round(parseFloat(temp))
+    const maxTemp = max;
+    const minTemp = min;
+    const redVal = 255 / (maxTemp - minTemp) * (temp - minTemp);
+    const blueVal = 255 / (maxTemp - minTemp) * (maxTemp - temp);    
+
+    return "rgb(" + Math.round(redVal) + ",0," + Math.round(blueVal) + ")"
+}
 
 function CurrentWeatherTimeline(props){
     
@@ -26,13 +35,17 @@ function CurrentWeatherTimeline(props){
 
         return timeLineArr.map((current, index) => (
         <> 
-            <Col>
-                <img alt="" height={64} width={64} src={`${getIconURI(current.weather[0].icon)}`}></img>
-                <div className="timelineDiv"> 
-                    {timeDisplay(current.dt)}<br/>
-                    {current.temp}&#8451;<br/>
-                    {current.weather[0].description}<br/>
-                    w/s {current.wind_speed} knots
+            <Col className="padding-0">
+                <div style={{backgroundColor: calculateColourFromTemp(current.temp, props.weather.daily[0].temp.min, props.weather.daily[0].temp.max)}}>
+                    <div className="circularDiv padding-0">
+                        <img alt="" height={64} width={64} src={`${getIconURI(current.weather[0].icon)}`}></img>
+                    </div>
+                    <div className="timelineDiv padding-0"> 
+                        {timeDisplay(current.dt)}<br/>
+                        {current.temp}&#8451;<br/>
+                        {current.weather[0].description}<br/>
+                        w/s {current.wind_speed} knots
+                    </div>
                 </div>
             </Col>
         </>));

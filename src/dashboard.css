@@ -27,31 +27,3 @@
     width: 100%;
 }
 
-.miniWeatherCard {
-    border-width: 1px;
-    border-style: solid; 
-    border-color: black;
-}
-
-.navDateDisplay {
-    font-size: 0.75rem;
-    font-weight: bold;
-    background-color:rgba(240, 240, 240, .7);
-    color: black;   
-}
-
-.timelineDiv {
-    background-color: #dddddd;
-    font-size: 0.75rem;
-    font-weight: bold;
-    padding: 1px;
-    border-radius: 15%;
-    border-style: solid;
-    border-width: 1px;
-    border-color: black;
-}
-
-.dailyButton {
-    margin-bottom: 25px;
-    font-size: 0.85rem;
-}
